@@ -1,0 +1,26 @@
+
+const screen=document.getElementById("screen");
+const buttons=document.querySelectorAll("button");
+buttons.forEach((button)=>{
+    button.addEventListener("click",()=>{
+        const value=button.textContent;
+        if(value==="clear"){
+            screen.value="";
+        }
+        else if(value==="delete"){
+            screen.value=screen.value.slice(0,-1);
+        }
+        else if(value==="="){
+            try{
+                screen.value=eval(screen.value);
+            }catch{
+                screen.value="ERROR";
+
+            } 
+        } else {
+                screen.value+=value;
+            }
+
+        
+    });
+});
