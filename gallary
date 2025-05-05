@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Image Gallery</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9ff;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .image-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .view-btn {
+      background-color: #ff5fa2;
+      color: white;
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .view-btn:hover {
+      background-color: #e14d8f;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+    }
+
+    .close-btn {
+      color: white;
+      font-size: 30px;
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      cursor: pointer;
+    }
+
+    .modal-controls {
+      margin-top: 1rem;
+    }
+
+    .modal-controls button {
+      margin: 0 10px;
+      padding: 8px 16px;
+      background: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .modal-controls button:hover {
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📚 School Image Gallery</h1>
+
+<div class="gallery" id="gallery">
+ 
+</div>
+
+
+<div class="modal" id="modal">
+  <span class="close-btn" onclick="closeModal()">&times;</span>
+  <img id="modal-img" src="" alt="Expanded Image" />
+  <div class="modal-controls">
+    <button onclick="prevImage()">Previous</button>
+    <button onclick="nextImage()">Next</button>
+  </div>
+</div>
+
+<script>
+  const images = [
+    {
+      src: "https://cdn.pixabay.com/photo/2016/11/29/05/10/blackboard-1869821_960_720.jpg",
+      title: "Classroom Blackboard"
+    },
+    {
+      src: "https://cdn.pixabay.com/photo/2015/09/09/18/14/library-933489_960_720.jpg",
+      title: "Library"
+    },
+    {
+      src: "https://cdn.pixabay.com/photo/2017/01/20/00/30/classroom-1995523_960_720.jpg",
+      title: "Class in Session"
+    },
+    {
+      src: "https://cdn.pixabay.com/photo/2016/03/27/22/22/school-1280024_960_720.jpg",
+      title: "School Building"
+    },
+    {
+      src: "https://cdn.pixabay.com/photo/2016/03/05/19/02/students-1237378_960_720.jpg",
+      title: "Group of Students"
+    },
+    {
+      src: "https://cdn.pixabay.com/photo/2018/08/26/20/44/children-3636680_960_720.jpg",
+      title: "Art Class"
+    }
+  ];
+
+  const gallery = document.getElementById("gallery");
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modal-img");
+  let currentIndex = 0;
+
+  images.forEach((img, index) => {
+    const card = document.createElement("div");
+    card.className = "image-card";
+    card.innerHTML = `
+      <img src="${img.src}" alt="${img.title}" />
+      <button class="view-btn" onclick="openModal(${index})">View</button>
+    `;
+    gallery.appendChild(card);
+  });
+
+  function openModal(index) {
+    currentIndex = index;
+    modal.style.display = "flex";
+    modalImg.src = images[currentIndex].src;
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImg.src = images[currentIndex].src;
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImg.src = images[currentIndex].src;
+  }
+</script>
+
+</body>
+</html>
